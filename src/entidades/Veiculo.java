@@ -56,4 +56,10 @@ public class Veiculo implements IVeiculo {
         long dias = Duration.between(diaDevolucao, diaAlugado).toDays() + 1;
         return dias * 100;
     }
+
+    @Override
+    public String toString() {
+        return "Tipo: " + tipoVeiculo
+            + " Placa: " + placa;
+    }
 }
