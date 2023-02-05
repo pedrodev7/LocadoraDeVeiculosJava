@@ -1,4 +1,4 @@
-# Desafio de Projeto - Hospital <img align="center" height="30" width="40" src="https://ada-site-frontend.s3.sa-east-1.amazonaws.com/home/header-logo.svg" />
+# Desafio de Projeto - Locadora de Veiculos <img align="center" height="30" width="40" src="https://ada-site-frontend.s3.sa-east-1.amazonaws.com/home/header-logo.svg" />
 
 ### Principais Informações
 A ideia deste projeto é desenvolvedor um projeto que simule uma Locadora de Veículos na linguagem Java utilizando os conceitos e fundamentos aprendidos no curso. Aplicando principalmente os conceitos de _Interface_ e _SOLID_.
