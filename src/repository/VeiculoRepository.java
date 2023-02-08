@@ -1,10 +1,11 @@
-package entidades;
+package repository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import entidades.Veiculo;
 import interfaces.IVeiculoRepository;
 
 public class VeiculoRepository implements IVeiculoRepository {
@@ -75,6 +76,12 @@ public class VeiculoRepository implements IVeiculoRepository {
     @Override
     public List<Veiculo> listarTodos() {
         return new ArrayList<>(listaVeiculos);
+    }
+
+    public void alugar(){
+        Veiculo veiculo = listaVeiculos.get(0);
+        veiculo.setDisponivel(true);
+        veiculo.setDiaAlugado(LocalDateTime.now());
     }
 
     private void menuAtualizacao(Veiculo veiculo) {

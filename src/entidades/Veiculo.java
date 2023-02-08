@@ -3,10 +3,9 @@ package entidades;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-import interfaces.IVeiculo;
-import interfaces.TipoVeiculo;
+import enums.TipoVeiculo;
 
-public class Veiculo implements IVeiculo {
+public class Veiculo {
     private String placa;
     private Boolean disponivel;
     private LocalDateTime diaAlugado;
@@ -51,7 +50,6 @@ public class Veiculo implements IVeiculo {
         return tipoVeiculo;
     }
 
-    @Override
     public double calcularAluguel() {
         long dias = Duration.between(diaDevolucao, diaAlugado).toDays() + 1;
         return dias * 100;
