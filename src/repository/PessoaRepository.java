@@ -21,13 +21,20 @@ public class PessoaRepository implements IPessoaRepository {
 
     @Override
     public Pessoa salvar(Pessoa pessoa) {
+        if (validaClienteNaBaseDeDados(pessoa)) {
+            return null;
+        }
+
         listaDeClientes.add(pessoa);
         return pessoa;
     }
 
     @Override
     public void atualizar(Pessoa pessoa) {
-        // TODO Auto-generated method stub
+        if(!validaClienteNaBaseDeDados(pessoa)){
+            listaDeClientes.remove(pessoa);
+            salvar(pessoa);
+        }
 
     }
 
@@ -71,8 +78,33 @@ public class PessoaRepository implements IPessoaRepository {
 
     @Override
     public List<Pessoa> listarTodos() {
-        // TODO Auto-generated method stub
-        return null;
+        return new ArrayList<>(listaDeClientes);
+    }
+
+    private boolean validaClienteNaBaseDeDados(Pessoa pessoa) {
+        PessoaFisica pf;
+        if (pessoa instanceof PessoaFisica) {
+            pf = (PessoaFisica) pessoa;
+            String cpf = pf.getCpf();
+            pf = consultarPF(cpf);
+            if (pf != null) {
+                System.out.println("CPF já Existe na Base de Dados");
+                return true;
+            }
+        }
+
+        PessoaJuridica pj;
+        if (pessoa instanceof PessoaJuridica) {
+            pj = (PessoaJuridica) pessoa;
+            String cnpj = pj.getCnpj();
+            pj = consultarCNPJ(cnpj);
+            if (pj != null) {
+                System.out.println("CNPJ já Existe na Base de Dados");
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
