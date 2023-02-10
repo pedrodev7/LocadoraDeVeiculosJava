@@ -66,6 +66,6 @@ public class Veiculo {
         return "Marca: " + marca
                + " | Modelo: " + modelo
                + " | Placa: " + placa
-               + " | Tipo" + tipoVeiculo.toString();
+               + " | Tipo: " + tipoVeiculo.getNomeTipo();
     }
 }
