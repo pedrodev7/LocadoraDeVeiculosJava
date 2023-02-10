@@ -66,6 +66,7 @@ public class Veiculo {
         return "Marca: " + marca
                + " | Modelo: " + modelo
                + " | Placa: " + placa
-               + " | Tipo: " + tipoVeiculo.getNomeTipo();
+               + " | Tipo: " + tipoVeiculo.getNomeTipo()
+               + " | Status: " + (getDisponivel() ? "DISPONIVEL" : "NÃO DISPONIVEL");
     }
 }
