@@ -18,7 +18,7 @@ public class PessoaFisica extends Pessoa {
 
     @Override
     public String toString() {
-        return "PF: " + super.getNome() + " - CPF: " + cpf;
+        return "PF: " + super.getNome() + " | CPF: " + cpf;
     }
 
 }
