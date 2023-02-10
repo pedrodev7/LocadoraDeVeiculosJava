@@ -1,5 +1,6 @@
 package entidades;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -7,39 +8,45 @@ import java.util.List;
 import java.util.Set;
 
 public class Locadora {
-    HashMap<Veiculo, Pessoa> locadora;
+    private HashMap<Veiculo, Pessoa> locadora;
+    private String local;
 
-    public Locadora() {
+    public Locadora(String local) {
         locadora = new HashMap<>();
+        this.local = local;
     }
 
     public void alugar(Veiculo veiculo, Pessoa pessoa) {
-        if (locadora.containsKey(veiculo) && veiculo.getDisponivel() == false) {
+        if (locadora.containsKey(veiculo) || veiculo.getDisponivel() == false) {
             System.out.println("Veiculo não está disponivel");
         } else {
             locadora.put(veiculo, pessoa);
             veiculo.setDiaAlugado(LocalDateTime.now());
             veiculo.setDisponivel(false);
-            System.out.println("VEICULO ALUGADO COM SUCESSO");
+            Recibo.listarInformacoesDeAluguel(veiculo, pessoa, local);
         }
-
     }
 
-    public Double devolucao(Veiculo veiculo) {
+    public void devolucao(Veiculo veiculo) {
 
         if (locadora.containsKey(veiculo)) {
-            locadora.remove(veiculo);
             veiculo.setDiaDevolucao(LocalDateTime.now());
-            return calcularAluguel(veiculo);
+            veiculo.setDisponivel(true);
+            Recibo.listarInformacoesDeDevolucao(veiculo, locadora.get(veiculo), local, calcularAluguel(veiculo),
+                    getDiasAlugados(veiculo));
+            locadora.remove(veiculo);
+        } else {
+            System.out.println("Esse veiculo não foi alugado");
         }
-
-        System.out.println("Esse existe veiculo não foi alugado");
-        return null;
 
     }
 
-    private Double calcularAluguel(Veiculo veiculo) {
-        long dias = Duration.between(veiculo.getDiaAlugado(), veiculo.getDiaDevolucao()).toDays() + 1;
+    private Long getDiasAlugados(Veiculo veiculo) {
+        return Duration.between(veiculo.getDiaAlugado(), veiculo.getDiaDevolucao()).toDays() + 1;
+    }
+
+    private BigDecimal calcularAluguel(Veiculo veiculo) {
+        long dias = getDiasAlugados(veiculo);
         Pessoa pessoa = locadora.get(veiculo);
         Double desconto = 0.0;
 
@@ -51,9 +58,9 @@ public class Locadora {
         }
 
         return switch (veiculo.getTipoVeiculo()) {
-            case CARRO -> (double) (dias * 100) - (dias * 100 * desconto);
-            case MOTO -> (double) (dias * 150) - (dias * 150 * desconto);
-            case CAMINHAO -> (double) (dias * 200) - (dias * 200 * desconto);
+            case HATCH_BACK -> new BigDecimal((dias * 100) - (dias * 100 * desconto));
+            case SEDAN -> new BigDecimal((dias * 150) - (dias * 150 * desconto));
+            case SUV -> new BigDecimal((dias * 200) - (dias * 200 * desconto));
         };
 
     }
@@ -61,7 +68,7 @@ public class Locadora {
     public void buscarVeiculo(List<Veiculo> veiculo, String busca) {
         System.out.println("Lista de Veiculos com nome " + busca.toUpperCase());
         for (int i = 0; i < veiculo.size(); i++) {
-            if (veiculo.get(i).getPlaca().toLowerCase().contains(busca)) {
+            if (veiculo.get(i).getModelo().toLowerCase().contains(busca.toLowerCase())) {
                 System.out.println(veiculo.get(i).toString());
             }
         }
@@ -69,6 +76,7 @@ public class Locadora {
 
     public void listarVeiculosAlugados() {
         Set<Veiculo> chaves = locadora.keySet();
+        System.out.println("=== LISTA DE VEICULOS ALUGADOS ===");
         for (Veiculo chave : chaves) {
             if (chave != null)
                 System.out.println(chave + " | " + locadora.get(chave));
