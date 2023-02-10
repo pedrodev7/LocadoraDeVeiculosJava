@@ -1,18 +1,21 @@
 package entidades;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 import enums.TipoVeiculo;
 
 public class Veiculo {
+    private String marca;
+    private String modelo;
     private String placa;
     private Boolean disponivel;
     private LocalDateTime diaAlugado;
     private LocalDateTime diaDevolucao;
     private TipoVeiculo tipoVeiculo;
 
-    public Veiculo(String placa, TipoVeiculo tipoVeiculo) {
+    public Veiculo(String marca, String modelo, String placa, TipoVeiculo tipoVeiculo) {
+        this.marca = marca;
+        this.modelo = modelo;
         this.placa = placa;
         this.disponivel = true;
         this.tipoVeiculo = tipoVeiculo;
@@ -50,14 +53,19 @@ public class Veiculo {
         return tipoVeiculo;
     }
 
-    public double calcularAluguel() {
-        long dias = Duration.between(diaDevolucao, diaAlugado).toDays() + 1;
-        return dias * 100;
+    public String getMarca() {
+        return marca;
+    }
+
+    public String getModelo() {
+        return modelo;
     }
 
     @Override
     public String toString() {
-        return "Tipo: " + tipoVeiculo
-            + " Placa: " + placa;
+        return "Marca: " + marca
+               + " | Modelo: " + modelo
+               + " | Placa: " + placa
+               + " | Tipo" + tipoVeiculo.toString();
     }
 }
