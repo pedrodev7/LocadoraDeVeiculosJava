@@ -10,7 +10,7 @@ public interface IPessoaRepository {
     Pessoa salvar(Pessoa pessoa);
     void atualizar(Pessoa pessoa);
     boolean deletar(Pessoa pessoa);
-    PessoaFisica consultarPF(String cpf);
+    PessoaFisica consultarCPF(String cpf);
     PessoaJuridica consultarCNPJ(String cpf);
     List<Pessoa> listarTodos();
 }
