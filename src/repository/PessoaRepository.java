@@ -22,6 +22,12 @@ public class PessoaRepository implements IPessoaRepository {
     @Override
     public Pessoa salvar(Pessoa pessoa) {
         if (validaClienteNaBaseDeDados(pessoa)) {
+            if(pessoa instanceof PessoaFisica){
+                System.out.println("CPF Já Existe na Base de Dados");
+            }
+            if(pessoa instanceof PessoaJuridica){
+                System.out.println("CNPJ Já Existe na Base de Dados");
+            }
             return null;
         }
 
@@ -31,7 +37,7 @@ public class PessoaRepository implements IPessoaRepository {
 
     @Override
     public void atualizar(Pessoa pessoa) {
-        if(!validaClienteNaBaseDeDados(pessoa)){
+        if (!validaClienteNaBaseDeDados(pessoa)) {
             listaDeClientes.remove(pessoa);
             salvar(pessoa);
         }
@@ -45,7 +51,7 @@ public class PessoaRepository implements IPessoaRepository {
     }
 
     @Override
-    public PessoaFisica consultarPF(String cpf) {
+    public PessoaFisica consultarCPF(String cpf) {
         PessoaFisica pessoaFisica;
         for (int i = 0; i < listaDeClientes.size(); i++) {
             if (listaDeClientes.get(i) instanceof PessoaFisica) {
@@ -86,9 +92,8 @@ public class PessoaRepository implements IPessoaRepository {
         if (pessoa instanceof PessoaFisica) {
             pf = (PessoaFisica) pessoa;
             String cpf = pf.getCpf();
-            pf = consultarPF(cpf);
+            pf = consultarCPF(cpf);
             if (pf != null) {
-                System.out.println("CPF já Existe na Base de Dados");
                 return true;
             }
         }
@@ -99,7 +104,6 @@ public class PessoaRepository implements IPessoaRepository {
             String cnpj = pj.getCnpj();
             pj = consultarCNPJ(cnpj);
             if (pj != null) {
-                System.out.println("CNPJ já Existe na Base de Dados");
                 return true;
             }
         }
