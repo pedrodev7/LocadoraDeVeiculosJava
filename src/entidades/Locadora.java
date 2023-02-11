@@ -41,6 +41,18 @@ public class Locadora {
 
     }
 
+    public void devolverCincoDiasAFrente(Veiculo veiculo) {
+        if (locadora.containsKey(veiculo)) {
+            veiculo.setDiaDevolucao(LocalDateTime.now().plusDays(6));
+            veiculo.setDisponivel(true);
+            Recibo.listarInformacoesDeDevolucao(veiculo, locadora.get(veiculo), local, calcularAluguel(veiculo),
+                    getDiasAlugados(veiculo));
+            locadora.remove(veiculo);
+        } else {
+            System.out.println("Esse veiculo não foi alugado: " + veiculo.getMarca() + " " + veiculo.getModelo());
+        }
+    }
+
     private Long getDiasAlugados(Veiculo veiculo) {
         return Duration.between(veiculo.getDiaAlugado(), veiculo.getDiaDevolucao()).toDays() + 1;
     }
@@ -52,9 +64,10 @@ public class Locadora {
 
         if (pessoa instanceof PessoaFisica && dias > 5) {
             desconto = 0.05;
-            if (pessoa instanceof PessoaJuridica && dias > 5) {
-                desconto = 0.1;
-            }
+        }
+
+        if (pessoa instanceof PessoaJuridica && dias > 3) {
+            desconto = 0.1;
         }
 
         return switch (veiculo.getTipoVeiculo()) {
@@ -81,7 +94,7 @@ public class Locadora {
             if (chave != null)
                 System.out.println(chave + " | " + locadora.get(chave));
         }
-        if(locadora.isEmpty() == true){
+        if (locadora.isEmpty() == true) {
             System.out.println("NÃO HÁ VEICULOS ALUGADOS NO MOMENTO");
         }
     }
