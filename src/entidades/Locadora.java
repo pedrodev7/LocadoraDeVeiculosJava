@@ -18,7 +18,7 @@ public class Locadora {
 
     public void alugar(Veiculo veiculo, Pessoa pessoa) {
         if (locadora.containsKey(veiculo) || veiculo.getDisponivel() == false) {
-            System.out.println("Veiculo não está disponivel");
+            System.out.println("Veiculo não está disponivel: " + veiculo.getMarca() + " " + veiculo.getModelo());
         } else {
             locadora.put(veiculo, pessoa);
             veiculo.setDiaAlugado(LocalDateTime.now());
@@ -36,7 +36,7 @@ public class Locadora {
                     getDiasAlugados(veiculo));
             locadora.remove(veiculo);
         } else {
-            System.out.println("Esse veiculo não foi alugado");
+            System.out.println("Esse veiculo não foi alugado: " + veiculo.getMarca() + " " + veiculo.getModelo());
         }
 
     }
@@ -80,6 +80,9 @@ public class Locadora {
         for (Veiculo chave : chaves) {
             if (chave != null)
                 System.out.println(chave + " | " + locadora.get(chave));
+        }
+        if(locadora.isEmpty() == true){
+            System.out.println("NÃO HÁ VEICULOS ALUGADOS NO MOMENTO");
         }
     }
 }
